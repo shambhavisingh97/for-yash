@@ -107,6 +107,10 @@ const quizFeedback = document.getElementById("quizFeedback");
 const quizScoreText = document.getElementById("quizScoreText");
 const quizRestart = document.getElementById("quizRestart");
 const quizProgress = document.getElementById("quizProgress");
+const quizPrank = document.getElementById("quizPrank");
+const quizPrankBtn = document.getElementById("quizPrankBtn");
+
+const FAKE_QUIZ_TOTAL = 50;
 
 let quizIndex = 0;
 let quizScore = 0;
@@ -115,18 +119,24 @@ const questions = CONFIG.quizQuestions || [];
 function showQuizQuestion() {
   if (quizIndex >= questions.length) {
     quizContainer.classList.add("hidden");
-    quizResult.classList.remove("hidden");
     if (questions.length === 0) {
-      quizScoreText.textContent = "No questions yet. (Add some in config.js. Obviously.) 💕";
+      quizScoreText.textContent = "No questions yet. (Add some in config.js. Obviously) 💕";
+      quizResult.classList.remove("hidden");
     } else {
       const pct = Math.round((quizScore / questions.length) * 100);
-      quizScoreText.textContent = `You got ${quizScore} out of ${questions.length}! ${pct >= 80 ? "You know us so well! (I'm impressed. A bit.) 💕" : pct >= 50 ? "Not bad. (Barely.) There's room to improve. 💕" : "Yikes. That was rough. Date night to brush up? 💕"}`;
+      quizScoreText.textContent = `You got ${quizScore} out of ${questions.length}! ${pct >= 80 ? "You know us so well! (I'm impressed. A bit) 💕" : pct >= 50 ? "Not bad. (Barely) There's room to improve. 💕" : "Yikes. That was rough. Date night to brush up? 💕"}`;
+      if (quizPrank) {
+        quizPrank.classList.remove("hidden");
+        if (quizPrankBtn) quizPrankBtn.focus();
+      } else {
+        quizResult.classList.remove("hidden");
+      }
     }
     return;
   }
 
   const q = questions[quizIndex];
-  if (quizProgress) quizProgress.textContent = questions.length ? `Question ${quizIndex + 1} of ${questions.length}` : "";
+  if (quizProgress) quizProgress.textContent = questions.length ? `Question ${quizIndex + 1} of ${FAKE_QUIZ_TOTAL}` : "";
   quizQuestion.textContent = q.question;
   quizFeedback.textContent = "";
   quizOptions.innerHTML = q.options
@@ -149,7 +159,7 @@ function showQuizQuestion() {
       if (chosen === correct) {
         quizScore++;
         const rightAnswer = q.options && q.options[correct];
-        let correctMsg = "Correct. (Someone was paying attention.) 💕";
+        let correctMsg = "Correct. (Someone was paying attention) 💕";
         if (rightAnswer === "Nagpur") correctMsg = "You had to remember this one — you were there! 💕";
         else if (q.question.toLowerCase().includes("countries")) correctMsg = "Hmm, good counting. 💕";
         quizFeedback.textContent = correctMsg;
@@ -157,14 +167,14 @@ function showQuizQuestion() {
         const wrongMsg = q.options && q.options[correct] != null
           ? q.question.toLowerCase().includes("countries")
             ? `Nope. It was: ${q.options[correct]}.`
-            : `Nope. It was: ${q.options[correct]}. (Obviously.)`
-          : "Nope. (Check config — correct index might be wrong.)";
+            : `Nope. It was: ${q.options[correct]}. (Obviously)`
+          : "Nope. (Check config — correct index might be wrong)";
         quizFeedback.textContent = wrongMsg;
       }
       setTimeout(() => {
         quizIndex++;
         showQuizQuestion();
-      }, 1200);
+      }, 2500);
     });
   });
 }
@@ -175,10 +185,19 @@ function openQuiz(trigger) {
   quizScore = 0;
   quizContainer.classList.remove("hidden");
   quizResult.classList.add("hidden");
+  if (quizPrank) quizPrank.classList.add("hidden");
   if (!quizContainer || !quizResult) return;
   showQuizQuestion();
   quizModal.setAttribute("aria-hidden", "false");
   trapModalFocus(quizModal, trigger);
+}
+
+if (quizPrankBtn && quizPrank && quizResult) {
+  quizPrankBtn.addEventListener("click", () => {
+    quizPrank.classList.add("hidden");
+    quizResult.classList.remove("hidden");
+    quizPrankBtn.blur();
+  });
 }
 
 if (quizClose) quizClose.addEventListener("click", () => closeModalAndRestoreFocus(quizModal));
@@ -257,7 +276,7 @@ function buildMemoryGame() {
                 best = moves;
                 sessionStorage.setItem(MEMORY_BEST_KEY, String(best));
               }
-              memoryMovesEl.textContent = `Made it to love in ${moves} moves. (Not that I was counting.) 💕`;
+              memoryMovesEl.textContent = `Made it to love in ${moves} moves. (Not that I was counting) 💕`;
               if (memoryBestEl) memoryBestEl.textContent = best > 0 ? "Best: " + best + " moves" : "";
             }, 300);
           }
@@ -493,7 +512,7 @@ function golfTick() {
       best = golfStrokes;
       sessionStorage.setItem(GOLF_BEST_KEY, String(best));
     }
-    golfWinText.textContent = golfStrokes === 1 ? "Hole in one! (Show-off.) 🏌️‍♀️💕" : "In the hole. (" + golfStrokes + " strokes. I wasn't counting. Okay, I was.) 💕";
+    golfWinText.textContent = golfStrokes === 1 ? "Hole in one! (Show-off) 🏌️‍♀️💕" : "In the hole (" + golfStrokes + " strokes. I wasn't counting. Okay, I was) 💕";
     if (golfBestText) golfBestText.textContent = best > 0 ? "Best: " + best + " stroke" + (best === 1 ? "" : "s") : "";
     golfWin.classList.remove("hidden");
     return;
@@ -919,13 +938,13 @@ function heartcatchEndGame() {
       const opts = ["Okay, show-off. 💕", "Who asked you to show off? 💕", "(We're almost impressed. Almost.) 💕"];
       msg = "You caught " + x + " hearts. " + opts[Math.floor(Math.random() * opts.length)];
     } else if (x >= 25) {
-      const opts = ["Not bad. (We're still not impressed.) 💕", "Decent. (Barely.) 💕", "Could've been worse. 💕"];
+      const opts = ["Not bad. (We're still not impressed) 💕", "Decent. (Barely) 💕", "Could've been worse. 💕"];
       msg = "You caught " + x + " hearts. " + opts[Math.floor(Math.random() * opts.length)];
     } else if (x >= 15) {
-      const opts = ["They were literally falling for you. 💕", "In a whole minute. (Yikes.) 💕", "The bar was on the floor. 💕"];
+      const opts = ["They were literally falling for you. 💕", "In a whole minute. (Yikes) 💕", "The bar was on the floor. 💕"];
       msg = "Only " + x + " hearts? " + opts[Math.floor(Math.random() * opts.length)];
     } else {
-      const opts = ["In a whole minute. (We're not judging. Much.) 💕", "Really? A whole minute. 💕", "(We're judging a little.) 💕", "The hearts were literally falling into your lap. 💕"];
+      const opts = ["In a whole minute. (We're not judging. Much) 💕", "Really? A whole minute. 💕", "(We're judging a little) 💕", "The hearts were literally falling into your lap. 💕"];
       msg = "You could catch only " + x + " heart" + (x === 1 ? "" : "s") + ". " + opts[Math.floor(Math.random() * opts.length)];
     }
     heartcatchResultText.textContent = msg;
@@ -1045,7 +1064,7 @@ if (heroTitle) {
       heroClicks = 0;
       const toast = document.createElement("div");
       toast.className = "easter-egg-toast";
-      toast.textContent = "Okay, we get it. You're cute. 💕";
+      toast.textContent = "I know. Even I'm obsessed. 💕";
       document.body.appendChild(toast);
       requestAnimationFrame(() => toast.classList.add("easter-egg-toast--show"));
       setTimeout(() => {

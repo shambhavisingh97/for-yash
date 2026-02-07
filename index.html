@@ -154,7 +154,7 @@
   <section class="section games-section" id="games">
     <div class="container">
       <h2 class="section-title">Let's do some activities</h2>
-      <p class="section-sub">Because that's what you like. (I'm told.)</p>
+      <p class="section-sub">Because that's what you like. (I'm told)</p>
 
       <div class="game-cards">
         <!-- Quiz Game -->
@@ -172,7 +172,7 @@
         <!-- Mini Golf -->
         <div class="game-card">
           <h3>Mini Golf</h3>
-          <p>Try to get it in the hole. (Yes, that's the point.)</p>
+          <p>Try to get it in the hole. (Yes, that's the point)</p>
           <button type="button" class="game-btn" data-game="golf">Swing</button>
         </div>
         <!-- Brick Breaker -->
@@ -184,7 +184,7 @@
         <!-- Heart catch -->
         <div class="game-card">
           <h3>Heart catch</h3>
-          <p>Hearts fall from the top. Tap or click to catch them. Simple. (So no excuses.)</p>
+          <p>Hearts fall from the top. Tap or click to catch them. Simple. (So no excuses)</p>
           <button type="button" class="game-btn" data-game="heartcatch">Catch hearts</button>
         </div>
         <!-- Will you be my Valentine? -->
@@ -199,16 +199,21 @@
       <div class="modal" id="quizModal" aria-hidden="true">
         <div class="modal-inner">
           <button class="modal-close" id="quizClose" aria-label="Close">×</button>
-          <h3>Pop quiz. (Yes, really.)</h3>
+          <h3>Pop quiz. (Yes, really)</h3>
           <div id="quizContainer">
-            <p id="quizProgress" class="quiz-progress" aria-live="polite"></p>
+            <p id="quizProgress" class="quiz-progress quiz-progress--fake-total" aria-live="polite"></p>
             <p id="quizQuestion"></p>
             <div id="quizOptions"></div>
             <p id="quizFeedback" class="quiz-feedback"></p>
           </div>
+          <div id="quizPrank" class="quiz-prank hidden">
+            <img class="quiz-prank-gif" src="gif/Tease.webp" alt="">
+            <p class="quiz-prank-text">Okay, full disclosure — it was just two questions. We figured that's enough of a memory test without being mean about it.</p>
+            <button type="button" id="quizPrankBtn" class="quiz-prank-btn">See how you did</button>
+          </div>
           <div id="quizResult" class="quiz-result hidden">
             <p id="quizScoreText"></p>
-            <button id="quizRestart">Try again. (I believe in you. Sort of.)</button>
+            <button id="quizRestart">Try again. (I believe in you. Sort of)</button>
           </div>
         </div>
       </div>
@@ -218,7 +223,7 @@
         <div class="modal-inner modal-wide">
           <button class="modal-close" id="memoryClose" aria-label="Close">×</button>
           <h3>Memory Match</h3>
-          <p class="memory-sub">Find all the pairs. No pressure. (Okay, a little.)</p>
+          <p class="memory-sub">Find all the pairs. No pressure. (Okay, a little)</p>
           <div id="memoryGrid" class="memory-grid"></div>
           <p id="memoryMoves">Moves: 0</p>
           <p id="memoryBest" class="memory-best" aria-live="polite"></p>
@@ -242,7 +247,7 @@
           <div id="golfWin" class="golf-win hidden">
             <p id="golfWinText">Hole in one! 🏌️‍♀️💕</p>
             <p id="golfBestText" class="golf-best" aria-live="polite"></p>
-            <button id="golfRestart">Again. (Sure.)</button>
+            <button id="golfRestart">One more round</button>
           </div>
         </div>
       </div>
@@ -302,7 +307,7 @@
             <button id="bricksRestart">Break more hearts</button>
           </div>
           <div id="bricksLose" class="bricks-msg hidden">
-            <p>You had one job. (Keep the ball.) Try again? 💕</p>
+            <p>You had one job. (Keep the ball) Try again? 💕</p>
             <button id="bricksRestart2">Fine, try again</button>
           </div>
         </div>
@@ -317,7 +322,7 @@
   <section class="section letter-section" id="letter">
     <div class="container">
       <h2 class="section-title">Before you go</h2>
-      <p class="letter-section-sub">Click the envelope to open your letter. (Yes, it's clickable.)</p>
+      <p class="letter-section-sub">Click the envelope to open your letter. (Yes, it's clickable)</p>
       <button type="button" class="envelope-wrap" id="envelopeBtn" aria-label="Open letter">
         <div class="envelope">
           <div class="envelope-flap"></div>

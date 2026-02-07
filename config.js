@@ -48,7 +48,7 @@ const CONFIG = {
   // Sweet letter (shown when they click the envelope at the end)
   letterContent: `To Yash,
 
-Ten years of you — and I still made you a whole website. (You're welcome.)
+Ten years of you — and I still made you a whole website. (You're welcome)
 
 Thank you for the small moments, the big dreams, and everything in between that led us here. Here's to many more years of us.
 
