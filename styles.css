@@ -435,11 +435,11 @@ body {
 }
 
 .letter-paper {
-  background: var(--cream);
+  background: #f6ede6;
   padding: 2.5rem 2rem;
   border-radius: 4px;
-  box-shadow: 0 12px 40px var(--shadow), inset 0 0 0 1px rgba(139, 58, 74, 0.15);
-  border: 1px solid var(--gold-soft);
+  box-shadow: 0 8px 32px rgba(61, 44, 46, 0.1), 0 0 0 1px rgba(139, 58, 74, 0.08);
+  border: 1px solid rgba(201, 169, 98, 0.4);
 }
 
 .letter-body {
