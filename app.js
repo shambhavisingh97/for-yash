@@ -81,6 +81,7 @@ function renderGallery() {
     const img = el.querySelector("img");
     if (!img) return;
     el.addEventListener("click", () => {
+      if (!lightboxImg || !lightbox) return;
       lightboxImg.src = img.src;
       lightboxImg.alt = "Our trip";
       lightbox.setAttribute("aria-hidden", "false");
@@ -147,9 +148,18 @@ function showQuizQuestion() {
       });
       if (chosen === correct) {
         quizScore++;
-        quizFeedback.textContent = "Correct. (Someone was paying attention.) 💕";
+        const rightAnswer = q.options && q.options[correct];
+        let correctMsg = "Correct. (Someone was paying attention.) 💕";
+        if (rightAnswer === "Nagpur") correctMsg = "You had to remember this one — you were there! 💕";
+        else if (q.question.toLowerCase().includes("countries")) correctMsg = "Hmm, good counting. 💕";
+        quizFeedback.textContent = correctMsg;
       } else {
-        quizFeedback.textContent = q.options && q.options[correct] != null ? `Nope. It was: ${q.options[correct]}. (Obviously.)` : "Nope. (Check config — correct index might be wrong.)";
+        const wrongMsg = q.options && q.options[correct] != null
+          ? q.question.toLowerCase().includes("countries")
+            ? `Nope. It was: ${q.options[correct]}.`
+            : `Nope. It was: ${q.options[correct]}. (Obviously.)`
+          : "Nope. (Check config — correct index might be wrong.)";
+        quizFeedback.textContent = wrongMsg;
       }
       setTimeout(() => {
         quizIndex++;
@@ -372,7 +382,7 @@ if (valentineNo) {
 
     const yesScale = Math.min(VALENTINE_YES_MAX_SCALE, 1 + valentineNoClicks * 0.08);
     const noScale = Math.max(VALENTINE_NO_MIN_SCALE, 1 - valentineNoClicks * 0.04);
-    valentineYes.style.transform = `scale(${yesScale})`;
+    if (valentineYes) valentineYes.style.transform = `scale(${yesScale})`;
     valentineNo.style.transform = `scale(${noScale})`;
 
     if (msgIndex === VALENTINE_NO_MESSAGES.length - 1) {

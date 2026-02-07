@@ -648,15 +648,18 @@ body {
 
 .valentine-yes {
   transform-origin: center center;
+  min-width: 7rem; /* So it has room to scale on narrow screens */
 }
 
 .valentine-no {
   transform-origin: center center;
 }
 
-@media (max-width: 380px) {
+/* Stack buttons on phones so Yes has full width and can scale visibly */
+@media (max-width: 480px) {
   .valentine-buttons {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 }
 
