@@ -1,0 +1,4 @@
+# Add one image per year, named by year:
+# 2016.jpg, 2017.jpg, 2018.jpg, 2019.jpg, 2020.jpg,
+# 2021.jpg, 2022.jpg, 2023.jpg, 2024.jpg, 2025.jpg, 2026.jpg
+# (or .png — then update index.html to use .png)
