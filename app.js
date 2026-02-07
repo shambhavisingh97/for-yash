@@ -171,10 +171,8 @@ function openQuiz(trigger) {
   trapModalFocus(quizModal, trigger);
 }
 
-quizClose.addEventListener("click", () => closeModalAndRestoreFocus(quizModal));
-quizRestart.addEventListener("click", () => {
-  openQuiz();
-});
+if (quizClose) quizClose.addEventListener("click", () => closeModalAndRestoreFocus(quizModal));
+if (quizRestart) quizRestart.addEventListener("click", () => { openQuiz(); });
 
 /* Memory game */
 const MEMORY_EMOJIS_POOL = CONFIG.memoryEmojis && CONFIG.memoryEmojis.length >= 8 ? CONFIG.memoryEmojis : ["💕", "🌸", "💝", "🌹", "✨", "💖", "🦋", "💐", "🎀", "🌷", "💒", "🍀", "🌈", "🎈", "🫶", "💌"];
@@ -275,7 +273,7 @@ function openMemory(trigger) {
   trapModalFocus(memoryModal, trigger);
 }
 
-memoryClose.addEventListener("click", () => closeModalAndRestoreFocus(memoryModal));
+if (memoryClose) memoryClose.addEventListener("click", () => closeModalAndRestoreFocus(memoryModal));
 
 /* Will you be my Valentine? (game modal) */
 const VALENTINE_NO_MESSAGES = [
@@ -299,6 +297,7 @@ const VALENTINE_NO_MESSAGES = [
   "Just say yes?",
   "I'll keep asking...",
   "You know you want to",
+  "The button's right there. Just saying.",
   "Come on...",
   "Yes is such a nice word",
   "Okay, I'm considering it a Yes 💕",
@@ -484,7 +483,7 @@ function golfTick() {
       best = golfStrokes;
       sessionStorage.setItem(GOLF_BEST_KEY, String(best));
     }
-    golfWinText.textContent = golfStrokes === 1 ? "Hole in one! (Show-off.) 🏌️‍♀️💕" : "In the hole. (" + golfStrokes + " strokes. Not that I was counting.) 💕";
+    golfWinText.textContent = golfStrokes === 1 ? "Hole in one! (Show-off.) 🏌️‍♀️💕" : "In the hole. (" + golfStrokes + " strokes. I wasn't counting. Okay, I was.) 💕";
     if (golfBestText) golfBestText.textContent = best > 0 ? "Best: " + best + " stroke" + (best === 1 ? "" : "s") : "";
     golfWin.classList.remove("hidden");
     return;
@@ -602,8 +601,8 @@ golfCourse.addEventListener("touchend", (e) => {
   if (e.changedTouches[0]) endGolfDrag(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
 }, { passive: false });
 
-golfRestart.addEventListener("click", () => { initGolf(); });
-golfClose.addEventListener("click", () => closeModalAndRestoreFocus(golfModal));
+if (golfRestart) golfRestart.addEventListener("click", () => { initGolf(); });
+if (golfClose) golfClose.addEventListener("click", () => closeModalAndRestoreFocus(golfModal));
 
 function openGolf(trigger) {
   if (!golfModal) return;
@@ -660,8 +659,8 @@ function bricksReset() {
   bricksPaddleX = BRICKS_W / 2 - PADDLE_W / 2;
   bricksBallX = BRICKS_W / 2;
   bricksBallY = BRICKS_H - 50;
-  bricksVx = 2;
-  bricksVy = -4;
+  bricksVx = 2.8;
+  bricksVy = -5.5;
   bricksScore = 0;
   bricksScoreEl.textContent = "0";
   bricksWin.classList.add("hidden");
@@ -725,7 +724,7 @@ function bricksTick() {
     bricksBallY = paddleY - BRICKS_BALL_R;
     bricksVy = -Math.abs(bricksVy);
     const hit = (bricksBallX - (bricksPaddleX + PADDLE_W / 2)) / (PADDLE_W / 2);
-    bricksVx = hit * 3;
+    bricksVx = hit * 4;
   }
   bricksBricks.forEach((b) => {
     if (!b.alive) return;
@@ -785,9 +784,9 @@ bricksCanvas.addEventListener("touchmove", (e) => {
   bricksPaddleX = Math.max(0, Math.min(BRICKS_W - PADDLE_W, bricksPaddleX));
 }, { passive: false });
 
-bricksRestart.addEventListener("click", () => { initBricks(); });
-bricksRestart2.addEventListener("click", () => { initBricks(); });
-bricksClose.addEventListener("click", () => {
+if (bricksRestart) bricksRestart.addEventListener("click", () => { initBricks(); });
+if (bricksRestart2) bricksRestart2.addEventListener("click", () => { initBricks(); });
+if (bricksClose) bricksClose.addEventListener("click", () => {
   bricksRunning = false;
   if (bricksAnimId) cancelAnimationFrame(bricksAnimId);
   closeModalAndRestoreFocus(bricksModal);
@@ -803,7 +802,7 @@ function openBricks(trigger) {
 /* Heart catch */
 const HEARTCATCH_EMOJIS = ["💕", "💗", "💖", "❤️", "💝"];
 const HEARTCATCH_SPAWN_INTERVAL = 800;
-const HEARTCATCH_FALL_SPEED = 2.2;
+const HEARTCATCH_FALL_SPEED = 2.9;
 const HEARTCATCH_AREA_HEIGHT = 360;
 const HEARTCATCH_DURATION_SEC = 60;
 
@@ -916,7 +915,7 @@ function heartcatchEndGame() {
       const opts = ["They were literally falling for you. 💕", "In a whole minute. (Yikes.) 💕", "The bar was on the floor. 💕"];
       msg = "Only " + x + " hearts? " + opts[Math.floor(Math.random() * opts.length)];
     } else {
-      const opts = ["In a whole minute. (We're not judging. Much.) 💕", "Really? A whole minute. 💕", "(We're judging a little.) 💕"];
+      const opts = ["In a whole minute. (We're not judging. Much.) 💕", "Really? A whole minute. 💕", "(We're judging a little.) 💕", "The hearts were literally falling into your lap. 💕"];
       msg = "You could catch only " + x + " heart" + (x === 1 ? "" : "s") + ". " + opts[Math.floor(Math.random() * opts.length)];
     }
     heartcatchResultText.textContent = msg;
@@ -1049,6 +1048,10 @@ if (heroTitle) {
 
 /* Init when DOM is ready */
 function init() {
+  if (typeof history !== "undefined" && history.scrollRestoration) {
+    history.scrollRestoration = "manual";
+  }
+  window.scrollTo(0, 0);
   renderGallery();
   initGameButtons();
   const letterPrint = document.getElementById("letterPrint");

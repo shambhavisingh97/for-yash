@@ -628,6 +628,9 @@ body {
 }
 
 .valentine-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 1rem 2.5rem;
   font-family: var(--font-display);
   font-size: 1.5rem;
@@ -796,8 +799,21 @@ body {
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 0.75rem;
+    align-items: flex-start;
+  }
+  .modal-inner {
+    padding: 1.25rem 1rem;
+    max-height: 88vh;
+  }
 }
 
 .modal-wide {
@@ -928,6 +944,13 @@ body {
   touch-action: manipulation;
 }
 
+@media (max-width: 480px), (max-height: 640px) {
+  .heartcatch-area {
+    height: min(320px, 48vh);
+    min-height: 260px;
+  }
+}
+
 .heartcatch-area:focus {
   outline: 2px solid var(--rose-deep);
   outline-offset: 2px;
@@ -1007,6 +1030,13 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 0.5rem;
   margin-bottom: 1rem;
+  max-width: 100%;
+}
+
+@media (max-width: 380px) {
+  .memory-grid {
+    gap: 0.35rem;
+  }
 }
 
 .memory-best {
@@ -1115,6 +1145,13 @@ body {
   background: linear-gradient(180deg, #e8b4bc 0%, #d48a9a 50%, #c97a8a 100%);
   border-radius: 12px;
   overflow: hidden;
+}
+
+@media (max-width: 480px), (max-height: 700px) {
+  .golf-course {
+    height: min(420px, 55vh);
+    min-height: 280px;
+  }
 }
 
 .golf-sand {
